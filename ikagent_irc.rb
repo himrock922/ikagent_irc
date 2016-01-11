@@ -29,7 +29,18 @@ class Ikagent_IRC
     if OPTS[:s] then @@server = OPTS[:s] else @@server = SERVER end
     if OPTS[:p] then @@port = OPTS[:p] else @@port = PORT end
     if OPTS[:n] then @@nick = OPTS[:n] else @@nick = NICK end
-    if OPTS[:c] then @@channel = OPTS[:n] else @@channel = NICK end
+
+    # channel character (no # or head #)
+    if OPTS[:c] then
+      channel = OPTS[:c]
+      if channel.start_with?("#") == false then
+        @@channel = "#" + channel
+      else
+        @@channel = channel
+      end
+    else
+      @@channel = ""
+    end
     if OPTS[:t] then @@topic = OPTS[:t] else @@topic = "" end
   end
   ########################################
