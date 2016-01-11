@@ -1,4 +1,3 @@
-source :rubygems
-source "http://rubygems.org"
-  ruby '2.0.0'
+source "https://rubygems.org"
+  ruby '2.3.0'
   gem "irc-socket"
