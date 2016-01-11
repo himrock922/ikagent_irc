@@ -4,15 +4,35 @@ ikagent(IRC Client)
 
 ############################
 # Definition of the library
-require 'optparse'
+require 'optparse/uri'
+require 'securerandom'
 require 'irc-socket'
 ############################
 OPTS = {}
+
+###############
+# IRC Setting #
+###############
+
+SERVER = "irc.livedoor.ne.jp"
+PORT = Random::rand(6660...6667)
+NICK = SecureRandom::hex(9)
+
 #########
 # Start #
 #########
 
 class Ikagent_IRC
+  private
+  # function to store of such options args
+  def options_setting
+    if OPTS[:s] then @@server = OPTS[:s] else @@server = SERVER end
+    if OPTS[:p] then @@port = OPTS[:p] else @@port = PORT end
+    if OPTS[:n] then @@nick = OPTS[:n] else @@nick = NICK end
+    if OPTS[:c] then @@channel = OPTS[:n] else @@channel = NICK end
+    if OPTS[:t] then @@topic = OPTS[:t] else @@topic = "" end
+  end
+  ########################################
   def initialize
     opt = OptionParser::new
     begin
@@ -31,11 +51,13 @@ class Ikagent_IRC
       ##################
       opt.parse!(ARGV)
     # error process
+
     rescue => evar
       p evar
       exit
     end
     ###############
+    options_setting
   end
 end
 
